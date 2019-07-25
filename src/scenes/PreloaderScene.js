@@ -8,13 +8,24 @@ export default class PreloaderScene extends Phaser.Scene {
   preload() {
     //load logo for loading screen
 
-    const logo = this.add.image(400, 150, 'logo');
-    this.tweens.add({
+    const logo = this.add.image(innerWidth * 0.6, innerHeight / 2, 'logo');
+    const logoAnim = this.tweens.add({
       targets: logo,
-      x: { value: 730, duration: 4000, ease: 'Power2' },
-      y: { value: 400, duration: 1500, ease: 'Bounce.easeOut' }
+      x: { value: 730, duration: 1500, ease: 'Power2' },
+      y: { value: 400, duration: 1500, ease: 'Bounce.easeOut' },
+      angle: 30,
+      duration: 6000,
+      ease: 'Cubic.easeOut'
     });
 
+    // .tween(gameTitle)
+    // .from({ angle: 360 }, 5000, Phaser.Easing.Cubic.Out, true, 0);
+
+    // this.tweens.add({
+    //   targets: logo,
+    //   x: { value: 730, duration: 4000, ease: 'Power2' },
+    //   y: { value: 400, duration: 1500, ease: 'Bounce.easeOut' }
+    // });
     // set up a progress bar for preloading
 
     var progressBar = this.add.graphics();
@@ -80,12 +91,12 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('button2', 'assets/button2.png');
     this.load.image('title', 'assets/title.png');
     this.load.image('logo' + i, 'assets/logo.png');
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 500; i++) {
       this.load.image('logo' + i, 'assets/logo.png');
     }
 
     this.load.on(
-      'complete',
+      logoAnim.onComplete,
       function() {
         progressBox.destroy();
         progressBar.destroy();
@@ -98,5 +109,9 @@ export default class PreloaderScene extends Phaser.Scene {
 
   create() {
     this.scene.start('Title');
+  }
+
+  update() {
+    logo.rotation += 0.01;
   }
 }
