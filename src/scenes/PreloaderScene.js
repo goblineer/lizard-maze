@@ -6,25 +6,26 @@ export default class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
+    const fadeCamera = this.cameras.add(0, 0, innerWidth, innerHeight);
+    fadeCamera.fade(4000);
+    if (fadeCamera._fadeAlpha >= 1.0) {
+      fadeCamera._fadeAlpha = 0.0;
+      fadeCamera.fade(4000);
+    }
     //load logo for loading screen
-    const logo = this.add.image(innerWidth * 0.6, innerHeight / 2, 'logo');
-    const logoAnim = this.tweens.add({
+    const logo = this.add.image(
+      innerWidth * 0.55,
+      innerHeight / 2 - 50,
+      'robologo'
+    );
+
+    // optional animation for logo
+    this.tweens.add({
       targets: logo,
-      x: { value: 730, duration: 1500, ease: 'Power2' },
-      y: { value: 400, duration: 1500, ease: 'Bounce.easeOut' },
-      angle: 30,
-      duration: 6000,
-      ease: 'Cubic.easeOut'
+      x: { value: 730, duration: 4000, ease: 'Power2' },
+      y: { value: 400, duration: 1500, ease: 'Bounce.easeOut' }
     });
 
-    // .tween(gameTitle)
-    // .from({ angle: 360 }, 5000, Phaser.Easing.Cubic.Out, true, 0);
-
-    // this.tweens.add({
-    //   targets: logo,
-    //   x: { value: 730, duration: 4000, ease: 'Power2' },
-    //   y: { value: 400, duration: 1500, ease: 'Bounce.easeOut' }
-    // });
     // set up a progress bar for preloading
 
     var progressBar = this.add.graphics();
@@ -76,9 +77,9 @@ export default class PreloaderScene extends Phaser.Scene {
 
     // update file progress text
 
-    this.load.on('fileprogress', function(file) {
-      assetText.setText('Loading asset: ' + file.key);
-    });
+    // this.load.on('fileprogress', function(file) {
+    //   assetText.setText('Loading asset: ' + file.key);
+    // });
 
     //load assets for game
 
@@ -86,12 +87,13 @@ export default class PreloaderScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 20
     }),
-      this.load.image('wizard', 'assets/wizard.png');
+      this.load.image('robologo', 'assets/robologo.png');
+    this.load.image('wizard', 'assets/wizard.png');
     this.load.image('button1', 'assets/button1.png');
     this.load.image('button2', 'assets/button2.png');
     this.load.image('title', 'assets/title.png');
     this.load.image('logo' + i, 'assets/logo.png');
-    for (var i = 0; i < 500; i++) {
+    for (var i = 0; i < 600; i++) {
       this.load.image('logo' + i, 'assets/logo.png');
     }
 
@@ -103,7 +105,6 @@ export default class PreloaderScene extends Phaser.Scene {
       percentText.destroy();
     }
   }
-
   create() {
     this.scene.start('Title');
   }

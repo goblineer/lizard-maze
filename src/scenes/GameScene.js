@@ -8,13 +8,14 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    const maze = new Maze(10, 16, AlgorithmType.AldousBroder);
+    cursors = this.input.keyboard.createCursorKeys();
+    const maze = new Maze(13, 21, AlgorithmType.AldousBroder);
     const asciiMap = this.make.text({
       x: 16,
       y: 0,
       text: '',
       style: {
-        font: '24px monospace',
+        font: '18px monospace',
         fill: '#ffffff'
       }
     });
@@ -33,7 +34,7 @@ export default class GameScene extends Phaser.Scene {
       this,
       24,
       580,
-      'Click me!',
+      'New maze, please!',
       { fill: '#0f0' },
       () => this.updateClickCountText(asciiMap, 'BinaryTree')
     );
@@ -58,7 +59,7 @@ export default class GameScene extends Phaser.Scene {
     this.clickCount++;
 
     this.input.on('pointerup', function() {
-      const maze2 = new Maze(10, 16, AlgorithmType[mazeType]);
+      const maze2 = new Maze(13, 21, AlgorithmType[mazeType]);
       asciiMap.setText(maze2.string);
     });
   }

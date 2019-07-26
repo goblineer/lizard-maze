@@ -1,6 +1,4 @@
 export class TextButton extends Phaser.GameObjects.Text {
-  // constructor should have params of --> scene, x, y, text, style, callback <-- when the setAlgorithm callback is active in GameScene
-
   constructor(scene, x, y, text, style, callback) {
     super(scene, x, y, text, style);
 

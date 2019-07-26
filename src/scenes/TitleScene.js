@@ -11,13 +11,13 @@ export default class TitleScene extends Phaser.Scene {
   }
 
   createTitle() {
-    this.titleImage = this.add.image(0, 0, 'title');
-    this.centerObject(this.titleImage, 1);
+    this.titleImage = this.add.image(100, 100, 'title');
+    this.centerObject(this.titleImage, 0.5);
   }
 
   createPlayButton() {
     this.gameButton = this.add.sprite(0, 0, 'button1').setInteractive();
-    this.centerObject(this.gameButton, -1);
+    this.centerObject(this.gameButton, -2.5);
     this.gameButton.setScale(2);
 
     this.gameText = this.add.text(0, 0, 'Play', {
