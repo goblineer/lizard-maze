@@ -8,7 +8,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    cursors = this.input.keyboard.createCursorKeys();
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.player = this.physics.add.sprite(24, 24, 'playersprite.png', 3);
+    this.player.setCollideWorldBounds(true);
+
     const maze = new Maze(13, 21, AlgorithmType.AldousBroder);
     const asciiMap = this.make.text({
       x: 16,
@@ -24,11 +27,7 @@ export default class GameScene extends Phaser.Scene {
     asciiMap.setText(maze.string);
 
     this.clickCount = 0;
-    this.clickCountText = this.add.text(
-      24,
-      600,
-      'This is an AldousBroder maze.'
-    );
+    this.mazeText = this.add.text(24, 600, 'This is an AldousBroder maze.');
 
     this.clickButton = new TextButton(
       this,
@@ -36,12 +35,28 @@ export default class GameScene extends Phaser.Scene {
       580,
       'New maze, please!',
       { fill: '#0f0' },
-      () => this.updateClickCountText(asciiMap, 'BinaryTree')
+      () => this.updateMazeText(asciiMap, 'BinaryTree')
     );
     this.add.existing(this.clickButton);
   }
 
-  updateClickCountText(asciiMap, mazeType) {
+  update() {
+    this.player.setVelocity(0);
+
+    if (this.cursors.left.isDown) {
+      this.player.setVelocityX(-300);
+    } else if (this.cursors.right.isDown) {
+      this.player.setVelocityX(300);
+    }
+
+    if (this.cursors.up.isDown) {
+      this.player.setVelocityY(-300);
+    } else if (this.cursors.down.isDown) {
+      this.player.setVelocityY(300);
+    }
+  }
+
+  updateMazeText(asciiMap, mazeType) {
     const mazeTypes = [
       'AldousBroder',
       'BinaryTree',
@@ -55,7 +70,7 @@ export default class GameScene extends Phaser.Scene {
 
     mazeType = mazeTypes[this.clickCount];
 
-    this.clickCountText.setText(`This is a ${mazeType} maze.`);
+    this.mazeText.setText(`This is a ${mazeType} maze.`);
     this.clickCount++;
 
     this.input.on('pointerup', function() {
