@@ -23,7 +23,11 @@ export default class GameScene extends Phaser.Scene {
     asciiMap.setText(maze.string);
 
     this.clickCount = 0;
-    this.clickCountText = this.add.text(24, 600, '');
+    this.clickCountText = this.add.text(
+      24,
+      600,
+      'This is an AldousBroder maze.'
+    );
 
     this.clickButton = new TextButton(
       this,
@@ -31,22 +35,33 @@ export default class GameScene extends Phaser.Scene {
       580,
       'Click me!',
       { fill: '#0f0' },
-      () => this.updateClickCountText()
+      () => this.updateClickCountText(asciiMap, 'BinaryTree')
     );
     this.add.existing(this.clickButton);
-
-    this.updateClickCountText(asciiMap);
   }
 
-  updateClickCountText(asciiMap) {
-    this.clickCountText.setText(
-      `Button has been clicked ${this.clickCount} times.`
-    );
+  updateClickCountText(asciiMap, mazeType) {
+    const mazeTypes = [
+      'AldousBroder',
+      'BinaryTree',
+      'HuntAndKill',
+      'RecursiveBacktracker',
+      'Sidewinder',
+      'Wilsons'
+    ];
+
+    if (this.clickCount >= mazeTypes.length) this.clickCount = 0;
+
+    mazeType = mazeTypes[this.clickCount];
+
+    this.clickCountText.setText(`This is a ${mazeType} maze.`);
     this.clickCount++;
 
     this.input.on('pointerup', function() {
-      const maze2 = new Maze(10, 16, AlgorithmType.BinaryTree);
+      const maze2 = new Maze(10, 16, AlgorithmType[mazeType]);
       asciiMap.setText(maze2.string);
     });
   }
 }
+
+// LIST OF ALGORITHMS CURRENTLY AVAILABLE: AldousBroder, BinaryTree, HuntAndKill, RecursiveBacktracker, Sidewinder, Wilsons
