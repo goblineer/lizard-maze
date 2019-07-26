@@ -7,7 +7,6 @@ export default class PreloaderScene extends Phaser.Scene {
 
   preload() {
     //load logo for loading screen
-
     const logo = this.add.image(innerWidth * 0.6, innerHeight / 2, 'logo');
     const logoAnim = this.tweens.add({
       targets: logo,
@@ -76,6 +75,7 @@ export default class PreloaderScene extends Phaser.Scene {
     });
 
     // update file progress text
+
     this.load.on('fileprogress', function(file) {
       assetText.setText('Loading asset: ' + file.key);
     });
@@ -95,23 +95,16 @@ export default class PreloaderScene extends Phaser.Scene {
       this.load.image('logo' + i, 'assets/logo.png');
     }
 
-    this.load.on(
-      logoAnim.onComplete,
-      function() {
-        progressBox.destroy();
-        progressBar.destroy();
-        assetText.destroy();
-        loadingText.destroy();
-        percentText.destroy();
-      }.bind(this)
-    );
+    function timerReady() {
+      progressBox.destroy();
+      progressBar.destroy();
+      assetText.destroy();
+      loadingText.destroy();
+      percentText.destroy();
+    }
   }
 
   create() {
     this.scene.start('Title');
-  }
-
-  update() {
-    logo.rotation += 0.01;
   }
 }
