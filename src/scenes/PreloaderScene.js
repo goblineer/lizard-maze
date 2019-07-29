@@ -83,11 +83,29 @@ export default class PreloaderScene extends Phaser.Scene {
 
     //load assets for game
 
-    this.load.spritesheet('player', 'assets/playersprite.png', {
-      frameWidth: 32,
-      frameHeight: 20
-    }),
-      this.load.image('robologo', 'assets/robologo.png');
+    this.load.spritesheet({
+      key: 'player',
+      url: 'assets/playersprite.png',
+      frameConfig: {
+        frameWidth: 32,
+        frameHeight: 22,
+        startFrame: 0,
+        endFrame: 5
+      }
+    });
+
+    this.load.spritesheet({
+      key: 'vplayer',
+      url: 'assets/vert-player.png',
+      frameConfig: {
+        frameWidth: 22,
+        frameHeight: 32,
+        startFrame: 0,
+        endFrame: 5
+      }
+    });
+
+    this.load.image('robologo', 'assets/robologo.png');
     this.load.image('wizard', 'assets/wizard.png');
     this.load.image('button1', 'assets/button1.png');
     this.load.image('button2', 'assets/button2.png');
@@ -95,14 +113,6 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('logo' + i, 'assets/logo.png');
     for (var i = 0; i < 600; i++) {
       this.load.image('logo' + i, 'assets/logo.png');
-    }
-
-    function timerReady() {
-      progressBox.destroy();
-      progressBar.destroy();
-      assetText.destroy();
-      loadingText.destroy();
-      percentText.destroy();
     }
   }
   create() {

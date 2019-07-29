@@ -9,17 +9,53 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.player = this.physics.add.sprite(24, 24, 'playersprite.png', 3);
-    this.player.setCollideWorldBounds(true);
 
-    const maze = new Maze(13, 21, AlgorithmType.AldousBroder);
+    const bg = this.add.rectangle(0, 0, 960, 570, 0x333);
+    bg.setOrigin(0, 0);
+    this.player = this.physics.add.sprite(35, 35, 'player', 4);
+    this.player.body.setCollideWorldBounds(true);
+
+    this.anims.create({
+      key: 'walk-right',
+      frames: this.anims.generateFrameNumbers('player', {
+        frames: [5, 3, 4, 5, 3]
+      }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'walk-left',
+      frames: this.anims.generateFrameNumbers('player', {
+        frames: [1, 0, 2, 1, 0]
+      }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'walk-up',
+      frames: this.anims.generateFrameNumbers('vplayer', {
+        frames: [1, 0, 2, 1, 0]
+      }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'walk-down',
+      frames: this.anims.generateFrameNumbers('vplayer', {
+        frames: [5, 3, 4, 5, 3]
+      }),
+      frameRate: 8,
+      repeat: -1
+    });
+
+    const maze = new Maze(11, 18, AlgorithmType.AldousBroder);
     const asciiMap = this.make.text({
-      x: 16,
+      x: -1,
       y: 0,
       text: '',
       style: {
-        font: '18px monospace',
-        fill: '#ffffff'
+        font: '22px monospace',
+        fill: '#fab40c'
       }
     });
 
@@ -32,7 +68,7 @@ export default class GameScene extends Phaser.Scene {
     this.clickButton = new TextButton(
       this,
       24,
-      580,
+      583,
       'New maze, please!',
       { fill: '#0f0' },
       () => this.updateMazeText(asciiMap, 'BinaryTree')
@@ -44,15 +80,19 @@ export default class GameScene extends Phaser.Scene {
     this.player.setVelocity(0);
 
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-300);
+      this.player.anims.play('walk-left', true);
+      this.player.setVelocityX(-100);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(300);
-    }
-
-    if (this.cursors.up.isDown) {
-      this.player.setVelocityY(-300);
+      this.player.anims.play('walk-right', true);
+      this.player.setVelocityX(100);
+    } else if (this.cursors.up.isDown) {
+      this.player.anims.play('walk-up', true);
+      this.player.setVelocityY(-100);
     } else if (this.cursors.down.isDown) {
-      this.player.setVelocityY(300);
+      this.player.anims.play('walk-down', true);
+      this.player.setVelocityY(100);
+    } else {
+      this.player.anims.stop();
     }
   }
 
@@ -74,7 +114,7 @@ export default class GameScene extends Phaser.Scene {
     this.clickCount++;
 
     this.input.on('pointerup', function() {
-      const maze2 = new Maze(13, 21, AlgorithmType[mazeType]);
+      const maze2 = new Maze(11, 18, AlgorithmType[mazeType]);
       asciiMap.setText(maze2.string);
     });
   }
