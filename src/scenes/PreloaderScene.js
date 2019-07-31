@@ -89,7 +89,7 @@ export default class PreloaderScene extends Phaser.Scene {
       frameConfig: {
         frameWidth: 32,
         frameHeight: 22,
-        startFrame: 0,
+        startFrame: 5,
         endFrame: 5
       }
     });
@@ -105,13 +105,20 @@ export default class PreloaderScene extends Phaser.Scene {
       }
     });
 
+    this.load.image('tiles', 'assets/maps/solidtiles.png');
+    for (let index = 0; index < 15; index++) {
+      this.load.tilemapTiledJSON(
+        'map' + index,
+        'assets/maps/map' + index + '.json'
+      );
+    }
     this.load.image('robologo', 'assets/robologo.png');
     this.load.image('wizard', 'assets/wizard.png');
     this.load.image('button1', 'assets/button1.png');
     this.load.image('button2', 'assets/button2.png');
     this.load.image('title', 'assets/title.png');
     this.load.image('logo' + i, 'assets/logo.png');
-    for (var i = 0; i < 600; i++) {
+    for (var i = 0; i < 1; i++) {
       this.load.image('logo' + i, 'assets/logo.png');
     }
   }

@@ -8,9 +8,13 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.maps = [];
+    this.tiles = [];
+    this.layers = [];
+
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    const bg = this.add.rectangle(0, 0, 960, 570, 0x333);
+    const bg = this.add.rectangle(0, 0, 960, 570, 0xf4d03f);
     bg.setOrigin(0, 0);
     this.player = this.physics.add.sprite(35, 35, 'player', 4);
     this.player.body.setCollideWorldBounds(true);
@@ -55,7 +59,7 @@ export default class GameScene extends Phaser.Scene {
       text: '',
       style: {
         font: '22px monospace',
-        fill: '#fab40c'
+        fill: '#333'
       }
     });
 
@@ -94,6 +98,20 @@ export default class GameScene extends Phaser.Scene {
     } else {
       this.player.anims.stop();
     }
+  }
+
+  addMap({ key = 'map', x = 0, y = 0, tiles = 'tiles' } = {}) {
+    let map = this.make.tilemap({ key: key });
+    let tile = map.addTilesetImage(tiles, tiles);
+    let layer = map.createStaticLayer(0, tile, x, y);
+    console.log(map.widthInPixels);
+    console.log(map.heightInPixels);
+
+    map.setCollisionBetween(0, 15);
+
+    this.maps.push(map);
+    this.tiles.push(tile);
+    this.layers.push(layer);
   }
 
   updateMazeText(asciiMap, mazeType) {
