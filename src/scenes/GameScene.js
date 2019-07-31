@@ -10,7 +10,7 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    const bg = this.add.rectangle(0, 0, 960, 570, 0x333);
+    const bg = this.add.rectangle(0, 0, 960, 570, 0xf4d03f);
     bg.setOrigin(0, 0);
     this.player = this.physics.add.sprite(35, 35, 'player', 4);
     this.player.body.setCollideWorldBounds(true);
@@ -55,7 +55,7 @@ export default class GameScene extends Phaser.Scene {
       text: '',
       style: {
         font: '22px monospace',
-        fill: '#fab40c'
+        fill: '#333'
       }
     });
 
