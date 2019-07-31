@@ -1,6 +1,7 @@
 import 'phaser';
 import { AlgorithmType, Maze } from 'trailz';
 import { TextButton } from '../ui/textButton';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -49,6 +50,23 @@ export default class GameScene extends Phaser.Scene {
     });
 
     const maze = new Maze(11, 18, AlgorithmType.AldousBroder);
+
+    //TODO: Pull out method
+
+    for (let row = 0; row < maze.rows; row++) {
+      for (let cell = 0; cell < maze.cols; cell++) {
+        var tile = 'map' + maze.repr[row][cell];
+        var map = this.add.tilemap({ key: tile });
+        var tileset = map.addTilesetImage('tiles');
+        var layer = map.createStaticLayer(
+          'Tile Layer 1',
+          tileset,
+          row * 32,
+          cell * 32
+        );
+      }
+    }
+
     const asciiMap = this.make.text({
       x: -1,
       y: 0,
@@ -98,12 +116,12 @@ export default class GameScene extends Phaser.Scene {
 
   updateMazeText(asciiMap, mazeType) {
     const mazeTypes = [
-      'AldousBroder',
       'BinaryTree',
       'HuntAndKill',
       'RecursiveBacktracker',
       'Sidewinder',
-      'Wilsons'
+      'Wilsons',
+      'AldousBroder'
     ];
 
     if (this.clickCount >= mazeTypes.length) this.clickCount = 0;

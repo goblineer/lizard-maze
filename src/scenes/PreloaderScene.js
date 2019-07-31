@@ -77,11 +77,16 @@ export default class PreloaderScene extends Phaser.Scene {
 
     // update file progress text
 
-    // this.load.on('fileprogress', function(file) {
-    //   assetText.setText('Loading asset: ' + file.key);
-    // });
+    this.load.on('fileprogress', function(file) {
+      console.log('Loading asset: ' + file.key);
+    });
 
-    //load assets for game
+    // load assets for game
+
+    this.load.image('tiles', 'assets/maps/solidtiles.png');
+    for (let m = 0; m < 15; m++) {
+      this.load.tilemapTiledJSON('map' + m, 'assets/maps/map' + m + '.json');
+    }
 
     this.load.spritesheet({
       key: 'player',
@@ -111,7 +116,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('button2', 'assets/button2.png');
     this.load.image('title', 'assets/title.png');
     this.load.image('logo' + i, 'assets/logo.png');
-    for (var i = 0; i < 600; i++) {
+    for (var i = 0; i < 0; i++) {
       this.load.image('logo' + i, 'assets/logo.png');
     }
   }
